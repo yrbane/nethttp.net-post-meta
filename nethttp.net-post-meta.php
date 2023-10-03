@@ -43,6 +43,11 @@ class Post_Meta
      */
     public function __construct()
     {
+        // Check if the net-post-meta option is not set and add it if it's not
+        if (!get_option(self::OPTION)) {
+            add_option(self::OPTION, []);
+        }
+
         // Add a menu link in the WordPress admin panel
         add_action('admin_menu', [$this, 'admin_menu']);
 
@@ -52,11 +57,6 @@ class Post_Meta
         // Add hooks to display and save post meta fields
         add_action('add_meta_boxes', [$this, 'add_meta_boxes']);
         add_action('save_post', [$this, 'save_post_meta']);
-
-        // Check if the net-post-meta option is not set and add it if it's not
-        if (!get_option(self::OPTION)) {
-            add_option(self::OPTION, []);
-        }
     }
 
     /**
